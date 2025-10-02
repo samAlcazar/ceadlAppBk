@@ -1,4 +1,4 @@
-import { validateBudget } from '../../schemas/applications/budget.js'
+import { validateBudget } from '../../schemas/applications/budgets.js'
 
 export class BudgetController {
   constructor ({ budgetModel }) {

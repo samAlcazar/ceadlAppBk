@@ -25,7 +25,7 @@ export class ProfileModel {
     } = input
 
     const uuidResult = await pool.query('SELECT id_super_user FROM super_user')
-    const idSuperUser = uuidResult.rows[0]
+    const idSuperUser = uuidResult.rows[0].id_super_user
 
     try {
       const result = await pool.query('SELECT create_profile($1, $2)', [nameProfile, idSuperUser])

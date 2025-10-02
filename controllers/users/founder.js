@@ -1,4 +1,4 @@
-import { validateFounder } from '../../schemas/users/founder.js'
+import { validateFounder } from '../../schemas/users/founders.js'
 
 export class FounderController {
   constructor ({ founderModel }) {

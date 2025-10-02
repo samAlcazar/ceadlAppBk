@@ -1,4 +1,4 @@
-import pool from '../../config/database.js'
+import { pool } from '../../config/dataBaseConect.js'
 
 export class LoginModel {
   static async login ({ input }) {

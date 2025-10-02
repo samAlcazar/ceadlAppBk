@@ -1,0 +1,16 @@
+### USERS
+
+###Profile
+###GET all profiles
+GET http://localhost:4984/profiles
+
+###GET profile by ID
+GET http://localhost:4984/profiles/{id}
+
+###Create new profile
+POST http://localhost:4984/profiles
+Content-Type: application/json
+
+{
+  "nameProfile": "Director"
+}

@@ -13,10 +13,14 @@ import { createBudgetRouter } from './routes/applications/budget.js'
 import { createAccountabilityRouter } from './routes/accountabilities/accountability.js'
 import { createSurrenderRouter } from './routes/accountabilities/surrender.js'
 import { createParticipantRouter } from './routes/participants/participant.js'
-import { corsMiddleware } from './middlewares/cors.js'
 import { createLoginRouter } from './routes/login/login.js'
+import { corsMiddleware } from './middlewares/cors.js'
+import { pool } from './config/dataBaseConect.js'
 
-export const createApp = (
+const founders = await pool.query('SELECT id_super_user FROM super_user')
+console.log(founders.rows[0].id_super_user)
+
+export const createApp = ({
   userModel,
   profileModel,
   founderModel,
@@ -31,7 +35,7 @@ export const createApp = (
   surrenderModel,
   participantModel,
   loginModel
-) => {
+}) => {
   const PORT = process.env.PORT ?? 4984
   const app = express()
   app.disable('x-powered-by')
@@ -39,7 +43,7 @@ export const createApp = (
   app.use(cookieParser())
   app.use(corsMiddleware())
 
-  app.options('*', (req, res) => {
+  app.all('/', (req, res) => {
     res.header('Access-Control-Allow-Origin', req.get('Origin') || '*')
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
     res.header('Access-Control-Allow-Headers', '*')
