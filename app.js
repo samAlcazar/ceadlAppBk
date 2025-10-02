@@ -13,6 +13,8 @@ import { createBudgetRouter } from './routes/applications/budget.js'
 import { createAccountabilityRouter } from './routes/accountabilities/accountability.js'
 import { createSurrenderRouter } from './routes/accountabilities/surrender.js'
 import { createParticipantRouter } from './routes/participants/participant.js'
+import { corsMiddleware } from './middlewares/cors.js'
+import { createLoginRouter } from './routes/login/login.js'
 
 export const createApp = (
   userModel,
@@ -27,13 +29,23 @@ export const createApp = (
   budgetModel,
   accountabilityModel,
   surrenderModel,
-  participantModel
+  participantModel,
+  loginModel
 ) => {
   const PORT = process.env.PORT ?? 4984
   const app = express()
   app.disable('x-powered-by')
   app.use(express.json())
   app.use(cookieParser())
+  app.use(corsMiddleware())
+
+  app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.get('Origin') || '*')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.header('Access-Control-Allow-Headers', '*')
+    res.header('Access-Control-Allow-Credentials', 'true')
+    res.sendStatus(204)
+  })
 
   app.use('/users', createUserRouter({ userModel }))
   app.use('/profiles', createProfileRouter({ profileModel }))
@@ -48,6 +60,7 @@ export const createApp = (
   app.use('/accountabilities', createAccountabilityRouter({ accountabilityModel }))
   app.use('/surrenders', createSurrenderRouter({ surrenderModel }))
   app.use('/participants', createParticipantRouter({ participantModel }))
+  app.use('/login', createLoginRouter({ loginModel }))
 
   app.use((req, res) => {
     res.status(404).send('404 Not Found')

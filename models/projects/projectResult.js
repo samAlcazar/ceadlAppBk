@@ -1,6 +1,6 @@
 import { pool } from '../../config/dataBaseConect.js'
 
-export class ProjectresultModel {
+export class ProjectResultModel {
   static async getAllProjectResults () {
     try {
       const result = await pool.query('SELECT list_project_results()')
