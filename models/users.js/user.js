@@ -10,9 +10,9 @@ export class UserModel {
     }
   }
 
-  static async getUserById ({ id }) {
+  static async getUserById ({ idUser }) {
     try {
-      const result = await pool.query('SELECT id_user, name_user, nick_user, charge_user, signature_user, id_profile, id_project, active  FROM users WHERE id_user = $1', [id])
+      const result = await pool.query('SELECT id_user, name_user, nick_user, charge_user, signature_user, id_profile, id_project, active  FROM users WHERE id_user = $1', [idUser])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error fetching user by ID: ' + error.message)
