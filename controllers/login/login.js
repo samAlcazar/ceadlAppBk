@@ -10,6 +10,7 @@ export class LoginController {
   login = async (req, res) => {
     const result = validateLogin(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
 

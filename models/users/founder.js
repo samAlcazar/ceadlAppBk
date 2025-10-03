@@ -37,10 +37,11 @@ export class FounderModel {
   static async updateFounder ({ idFounder, input }) {
     const {
       codFounder,
-      nameFounder
+      nameFounder,
+      idUser
     } = input
     try {
-      const result = await pool.query('SELECT update_founder($1, $2, $3)', [idFounder, codFounder, nameFounder])
+      const result = await pool.query('SELECT update_founder($1, $2, $3, $4)', [idFounder, codFounder, nameFounder, idUser])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error updating founder: ' + error.message)

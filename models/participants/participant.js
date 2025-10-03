@@ -72,7 +72,7 @@ export class ParticipantModel {
     } = input
 
     try {
-      const result = await pool.query('SELECT create_participant($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', [nameParticipant, gender, age, organization, phone, typeParticipant, municipality, typeOrganization, idProject, idFounder, idActivity, idUser])
+      const result = await pool.query('SELECT create_participant($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [nameParticipant, gender, age, organization, phone, typeParticipant, municipality, typeOrganization, idProject, idFounder, idActivity, idUser])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error creating participant: ' + error.message)

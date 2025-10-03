@@ -47,6 +47,7 @@ export class ActivityController {
   createActivity = async (req, res) => {
     const result = validateActivity(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: result.error.errors })
     }
     try {

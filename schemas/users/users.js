@@ -6,10 +6,7 @@ const userSchema = z.object({
   passwordUser: z.string().min(6).max(100),
   chargeUser: z.string().min(2).max(100),
   signatureUser: z.string().min(2).max(100),
-  idProfile: z.string().min(2).max(100),
-  idSuperUser: z.string().min(2).max(100),
-  idProject: z.string().min(2).max(100),
-  active: z.boolean()
+  idProfile: z.string().min(2).max(100)
 })
 
 export function validateUser (object) {

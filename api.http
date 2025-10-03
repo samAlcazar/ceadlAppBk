@@ -1,11 +1,9 @@
-### USERS
-
 ###Profile
 ###GET all profiles
 GET http://localhost:4984/profiles
 
 ###GET profile by ID
-GET http://localhost:4984/profiles/{id}
+GET http://localhost:4984/profiles/8173634e-14d1-4e6f-9be4-d8ef3b871e06
 
 ###Create new profile
 POST http://localhost:4984/profiles
@@ -14,3 +12,670 @@ Content-Type: application/json
 {
   "nameProfile": "Director"
 }
+
+###Update profile by ID
+PUT http://localhost:4984/profiles/6058ec1d-96f8-4f16-b7ec-a1ede5c356c5
+Content-Type: application/json
+
+{
+  "nameProfile": "Admin"
+}
+
+###DELETE profile by ID
+DELETE http://localhost:4984/profiles/6058ec1d-96f8-4f16-b7ec-a1ede5c356c5
+
+###=====================================================================
+###USER
+###GET all users
+GET http://localhost:4984/users
+
+###GET user by ID
+GET http://localhost:4984/users/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new user
+POST http://localhost:4984/users
+Content-Type: application/json
+
+{
+  "nameUser": "Samuel Alcazar",
+  "nickUser": "saalcazar",
+  "passwordUser": "123789",
+  "chargeUser": "Manager",
+  "signatureUser": "Sam Signature",
+  "idProfile": "8173634e-14d1-4e6f-9be4-d8ef3b871e06",
+  "idProject": null
+}
+
+###Update user by ID
+PUT http://localhost:4984/users/3b730689-bb2c-4bcb-9d70-995fd3f59572
+Content-Type: application/json
+
+{
+  "nameUser": "Jane",
+  "nickUser": "janeDoe",
+  "passwordUser": "newPass!45",
+  "chargeUser": "Director",
+  "signatureUser": "Jane's Signature",
+  "idProfile": "8173634e-14d1-4e6f-9be4-d8ef3b871e06",
+  "idProject": null
+}
+
+###DELETE user by ID
+DELETE http://localhost:4984/users/3b730689-bb2c-4bcb-9d70-995fd3f59572
+
+###=====================================================================
+###Founders
+###GET all founders
+GET http://localhost:4984/founders
+
+###GET founder by ID
+GET http://localhost:4984/founders/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+
+###Create new founder
+POST http://localhost:4984/founders
+Content-Type: application/json
+
+{
+  "codFounder": "FND123",
+  "nameFounder": "Alice Smith",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update founder by ID
+PUT http://localhost:4984/founders/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+Content-Type: application/json
+
+{
+  "codFounder": "FND456",
+  "nameFounder": "Alice Johnson",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE founder by ID
+DELETE http://localhost:4984/founders/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+
+###=====================================================================
+###Projects
+###GET all projects
+GET http://localhost:4984/projects
+
+###GET project by ID
+GET http://localhost:4984/projects/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET projects by founder ID
+GET http://localhost:4984/projects/founder/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+
+###GET projects by user ID
+GET http://localhost:4984/projects/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new project
+POST http://localhost:4984/projects
+Content-Type: application/json
+
+{
+  "codProject": "PRJ001",
+  "nameProject": "New Website",
+  "objetiveProject": "Development of a new corporate website",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update project by ID
+PUT http://localhost:4984/projects/f2ef50b0-5da7-40f4-a371-bde8653459a5
+Content-Type: application/json
+
+{
+  "codProject": "PRJ002",
+  "nameProject": "Updated Website",
+  "objetiveProject": "Redesign of the corporate website",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE project by ID
+DELETE http://localhost:4984/projects/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+
+###=====================================================================
+###GET all especifics
+GET http://localhost:4984/especifics
+
+###GET especific by ID
+GET http://localhost:4984/especifics/977137c7-53a7-4502-a072-3072e633bd71
+
+###GET especifics by project ID
+GET http://localhost:4984/especifics/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET especifics by user ID
+GET http://localhost:4984/especifics/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new especific
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+{
+  "numEspecific": 1,
+  "especific": "Login Feature Implementation",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+}
+
+###Update especific by ID
+PUT http://localhost:4984/especifics/977137c7-53a7-4502-a072-3072e633bd71
+Content-Type: application/json
+
+{
+  "numEspecific": 2,
+  "especific": "User Profile Page",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+}
+
+###DELETE especific by ID
+DELETE http://localhost:4984/especifics/977137c7-53a7-4502-a072-3072e633bd71
+
+###=====================================================================
+###GET all Project Results
+GET http://localhost:4984/projectResults
+
+###GET project result by ID
+GET http://localhost:4984/projectResults/d7172750-46fd-4cc5-ac71-2efeab6a527f
+
+###GET project results by project ID
+GET http://localhost:4984/projectResults/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET project results by user ID
+GET http://localhost:4984/projectResults/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new project result
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+{
+  "numProjectResult": 1,
+  "projectResult": "Initial Project Plan",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update project result by ID
+PUT http://localhost:4984/projectResults/d7172750-46fd-4cc5-ac71-2efeab6a527f
+Content-Type: application/json
+
+{
+  "numProjectResult": 2,
+  "projectResult": "Final Project Report",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE project result by ID
+DELETE http://localhost:4984/projectResults/d7172750-46fd-4cc5-ac71-2efeab6a527f
+
+###=====================================================================
+###GET all project activities
+GET http://localhost:4984/projectActivities
+
+###GET project activity by ID
+GET http://localhost:4984/projectActivities/c5141779-edcd-4d45-953f-d2e78b710389
+
+###GET project activities by project ID
+GET http://localhost:4984/projectActivities/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET project activities by user ID
+GET http://localhost:4984/projectActivities/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new project activity
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+{
+  "numProjectActivity": 1,
+  "projectActivity": "Requirement Gathering",
+  "category": "Planning",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update project activity by ID
+PUT http://localhost:4984/projectActivities/c5141779-edcd-4d45-953f-d2e78b710389
+Content-Type: application/json
+
+{
+  "numProjectActivity": 2,
+  "projectActivity": "Design Phase",
+  "category": "Design",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE project activity by ID
+DELETE http://localhost:4984/projectActivities/c5141779-edcd-4d45-953f-d2e78b710389
+
+###=====================================================================
+###GET all activities
+GET http://localhost:4984/activities
+
+###GET activity by ID
+GET http://localhost:4984/activities/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###GET activities by project ID
+GET http://localhost:4984/activities/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET activities by user ID
+GET http://localhost:4984/activities/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new activity
+POST http://localhost:4984/activities
+Content-Type: application/json
+
+{
+  "activity": "Kick-off Meeting",
+  "dateStart": "2024-07-01",
+  "dateEnd": "2024-07-01",
+  "place": "Conference Room A",
+  "participantsExpected": 10,
+  "objetive": "Introduce project team and objectives",
+  "resultExpected": "Team alignment on project goals",
+  "descriptionActivity": "Initial meeting to kick off the project",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idEspecific": "977137c7-53a7-4502-a072-3072e633bd71",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProjectResult": "d7172750-46fd-4cc5-ac71-2efeab6a527f",
+  "idProjectActivity": "c5141779-edcd-4d45-953f-d2e78b710389"
+}
+
+###Update activity by ID
+PUT http://localhost:4984/activities/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+Content-Type: application/json
+
+{
+  "activity": "Project Planning Meeting",
+  "dateStart": "2024-07-05",
+  "dateEnd": "2024-07-05",
+  "place": "Conference Room B",
+  "participantsExpected": 12,
+  "objetive": "Define project plan and milestones",
+  "resultExpected": "Approved project plan",
+  "descriptionActivity": "Meeting to plan project activities and timelines",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idEspecific": "977137c7-53a7-4502-a072-3072e633bd71",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProjectResult": "d7172750-46fd-4cc5-ac71-2efeab6a527f",
+  "idProjectActivity": "c5141779-edcd-4d45-953f-d2e78b710389"
+}
+
+###DELETE activity by ID
+DELETE http://localhost:4984/activities/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###=====================================================================
+###REPORTS
+###GET all reports
+GET http://localhost:4984/reports
+
+###GET report by ID
+GET http://localhost:4984/reports/1c330921-2763-4c8f-a2d9-56df731ac0d1
+
+###GET reports by project ID
+GET http://localhost:4984/reports/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET reports by user ID
+GET http://localhost:4984/reports/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new report
+POST http://localhost:4984/reports
+Content-Type: application/json
+
+{
+  "issues": "Some technical challenges were encountered during the implementation phase",
+  "results": "Successfully completed the login module with all required features",
+  "obstacle": "Limited availability of team members due to other commitments",
+  "conclusions": "The project is on track but requires additional resources for the next phase",
+  "anexos": "Design documents, test cases, and user manual attached",
+  "approved": true,
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###Update report by ID
+PUT http://localhost:4984/reports/1c330921-2763-4c8f-a2d9-56df731ac0d1
+Content-Type: application/json
+
+{
+  "issues": "Updated issues: Database connectivity problems resolved",
+  "results": "Enhanced login module with additional security features",
+  "obstacle": "Team coordination improved with new communication tools",
+  "conclusions": "Project timeline adjusted but deliverables maintained",
+  "anexos": "Updated documentation and additional test results",
+  "approved": false,
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###DELETE report by ID
+DELETE http://localhost:4984/reports/1c330921-2763-4c8f-a2d9-56df731ac0d1
+
+###=====================================================================
+###QUANTITATIVE REPORTS
+###GET all quantitatives
+GET http://localhost:4984/quantitatives
+
+###GET quantitative by ID
+GET http://localhost:4984/quantitatives/cd4b7044-e22f-46ee-aeb4-1182b109647f
+
+###GET quantitatives by activity ID
+GET http://localhost:4984/quantitatives/activity/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###GET quantitatives by user ID
+GET http://localhost:4984/quantitatives/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new quantitative
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+{
+  "achieved": 20,
+  "day": "2024-07-15",
+  "spFemale": 5,
+  "spMale": 8,
+  "fFemale": 3,
+  "fMale": 4,
+  "naFemale": 2,
+  "naMale": 3,
+  "pFemale": 6,
+  "pMale": 7,
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update quantitative by ID
+PUT http://localhost:4984/quantitatives/cd4b7044-e22f-46ee-aeb4-1182b109647f
+Content-Type: application/json
+
+{
+  "achieved": 30,
+  "day": "2024-07-16",
+  "spFemale": 7,
+  "spMale": 10,
+  "fFemale": 4,
+  "fMale": 6,
+  "naFemale": 3,
+  "naMale": 5,
+  "pFemale": 8,
+  "pMale": 9,
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE quantitative by ID
+DELETE http://localhost:4984/quantitatives/cd4b7044-e22f-46ee-aeb4-1182b109647f
+
+###=====================================================================
+###APPLICATIONS
+###GET all applications
+GET http://localhost:4984/applications
+
+###GET application by ID
+GET http://localhost:4984/applications/1bcfd97b-c9aa-4edc-a2f9-7c13f74c69f7
+
+###GET applications by project ID
+GET http://localhost:4984/applications/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET applications by user ID
+GET http://localhost:4984/applications/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###GET applications by activity ID
+GET http://localhost:4984/applications/activity/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###Create new application
+POST http://localhost:4984/applications
+Content-Type: application/json
+
+{
+  "amount": 5000.00,
+  "approved": true,
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###Update application by ID
+PUT http://localhost:4984/applications/1bcfd97b-c9aa-4edc-a2f9-7c13f74c69f7
+Content-Type: application/json
+
+{
+  "amount": 7500.00,
+  "approved": false,
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###DELETE application by ID
+DELETE http://localhost:4984/applications/1bcfd97b-c9aa-4edc-a2f9-7c13f74c69f7
+
+###=====================================================================
+###BUDGETS
+###GET all budgets
+GET http://localhost:4984/budgets
+
+###GET budget by ID
+GET http://localhost:4984/budgets/05ed46d4-7a0e-48d8-8ffb-47fe21fe2db0
+
+###GET budgets by application ID
+GET http://localhost:4984/budgets/application/71b77820-f82c-430e-8abb-1242ea82ec88
+
+###GET budgets by user ID
+GET http://localhost:4984/budgets/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###GET users by founder ID
+GET http://localhost:4984/budgets/founder/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+
+###Create new budget
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+{
+  "quantity": 10,
+  "code": "BDG001",
+  "description": "Office supplies and materials",
+  "importUSD": 500.00,
+  "importBOB": 3500.00,
+  "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update budget by ID
+PUT http://localhost:4984/budgets/05ed46d4-7a0e-48d8-8ffb-47fe21fe2db0
+Content-Type: application/json
+
+{
+  "quantity": 15,
+  "code": "BDG002",
+  "description": "Updated office supplies and equipment",
+  "importUSD": 750.00,
+  "importBOB": 5250.00,
+  "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE budget by ID
+DELETE http://localhost:4984/budgets/05ed46d4-7a0e-48d8-8ffb-47fe21fe2db0
+
+###=====================================================================
+###ACCOUNTABILITIES
+###GET all accountabilities
+GET http://localhost:4984/accountabilities
+
+###GET accountability by ID
+GET http://localhost:4984/accountabilities/62a6014a-5846-4000-8421-3bbb95047a3c
+
+###GET accountabilities by project ID
+GET http://localhost:4984/accountabilities/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET accountabilities by user ID
+GET http://localhost:4984/accountabilities/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###GET accountabilities by activity ID
+GET http://localhost:4984/accountabilities/activity/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###Create new accountability
+POST http://localhost:4984/accountabilities
+Content-Type: application/json
+
+{
+  "amount": 3000.00,
+  "reception": "2024-07-20",
+  "approved": true,
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###Update accountability by ID
+PUT http://localhost:4984/accountabilities/17a70fd9-925e-4a51-b221-61fd66d89a70
+Content-Type: application/json
+
+{
+  "amount": 4500.00,
+  "reception": "2024-07-25",
+  "approved": false,
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c"
+}
+
+###DELETE accountability by ID
+DELETE http://localhost:4984/accountabilities/17a70fd9-925e-4a51-b221-61fd66d89a70
+
+###=====================================================================
+###SURRENDERS
+###GET all surrenders
+GET http://localhost:4984/surrenders
+
+###GET surrender by ID
+GET http://localhost:4984/surrenders/983e27ba-3d20-4dbb-800f-645af2490189
+
+###GET surrenders by accountability ID
+GET http://localhost:4984/surrenders/accountability/62a6014a-5846-4000-8421-3bbb95047a3c
+
+###GET surrenders by user ID
+GET http://localhost:4984/surrenders/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new surrender
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+{
+  "dateInvoice": "2024-07-22",
+  "invoiceNumber": "INV-2024-001",
+  "code": "SUR001",
+  "description": "Office equipment purchase",
+  "importUSD": 1500.00,
+  "importBOB": 10500.00,
+  "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update surrender by ID
+PUT http://localhost:4984/surrenders/983e27ba-3d20-4dbb-800f-645af2490189
+Content-Type: application/json
+
+{
+  "dateInvoice": "2024-07-24",
+  "invoiceNumber": "INV-2024-002",
+  "code": "SUR002",
+  "description": "Updated office equipment and supplies",
+  "importUSD": 2000.00,
+  "importBOB": 14000.00,
+  "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE surrender by ID
+DELETE http://localhost:4984/surrenders/983e27ba-3d20-4dbb-800f-645af2490189
+
+###=====================================================================
+###PARTICIPANTS
+###GET all participants
+GET http://localhost:4984/participants
+
+###GET participant by ID
+GET http://localhost:4984/participants/d077abbb-18e5-4df8-b006-83ee76eac4cf
+
+###GET participants by project ID
+GET http://localhost:4984/participants/project/f2ef50b0-5da7-40f4-a371-bde8653459a5
+
+###GET participants by founder ID
+GET http://localhost:4984/participants/founder/5a3b5272-084d-4f95-a9d1-5e516ef82bb7
+
+###GET participants by activity ID
+GET http://localhost:4984/participants/activity/cc7a695b-f1dd-4ad8-9701-62e79f37295c
+
+###GET participants by user ID
+GET http://localhost:4984/participants/user/e8b57f6c-fc2f-432c-955f-f38abc1a3cd3
+
+###Create new participant
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+{
+  "nameParticipant": "Maria Rodriguez",
+  "gender": "Female",
+  "age": 28,
+  "organization": "Local Community Center",
+  "phone": "+591-12345678",
+  "typeParticipant": "Volunteer",
+  "municipality": "La Paz",
+  "typeOrganization": "Non-profit",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Update participant by ID
+PUT http://localhost:4984/participants/d077abbb-18e5-4df8-b006-83ee76eac4cf
+Content-Type: application/json
+
+{
+  "nameParticipant": "Maria Elena Rodriguez",
+  "gender": "Female",
+  "age": 29,
+  "organization": "Updated Community Organization",
+  "phone": "+591-87654321",
+  "typeParticipant": "Coordinator",
+  "municipality": "Cochabamba",
+  "typeOrganization": "NGO",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###DELETE participant by ID
+DELETE http://localhost:4984/participants/d077abbb-18e5-4df8-b006-83ee76eac4cf
+
+###=====================================================================
+###LOGIN
+###Login with valid credentials
+POST http://localhost:4984/login
+Content-Type: application/json
+
+{
+  "nickUser": "saalcazar",
+  "passwordUser": "123789"
+}
+
+###Check if user is authorized (requires login first to get cookie)
+GET http://localhost:4984/login/authorized
+
+###Logout - Clear authentication cookie
+POST http://localhost:4984/login/logout
+
+###=====================================================================
+

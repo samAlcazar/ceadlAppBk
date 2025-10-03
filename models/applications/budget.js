@@ -39,7 +39,7 @@ export class BudgetModel {
 
   static async getUsersByFounder ({ idFounder }) {
     try {
-      const result = await pool.query('SELECT list_users_by_founder($1)', [idFounder])
+      const result = await pool.query('SELECT list_budgets_by_founder($1)', [idFounder])
       return result.rows
     } catch (error) {
       throw new Error('Error fetching users by founder: ' + error.message)

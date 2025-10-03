@@ -24,7 +24,7 @@ export class ParticipantController {
     }
   }
 
-  getParticipanstsByProject = async (req, res) => {
+  getParticipantsByProject = async (req, res) => {
     const { idProject } = req.params
     try {
       const result = await this.participantModel.getParticipanstsByProject({ idProject })
@@ -67,6 +67,7 @@ export class ParticipantController {
   createParticipant = async (req, res) => {
     const result = validateParticipant(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: result.error.errors })
     }
     try {

@@ -8,6 +8,10 @@ export const createParticipantRouter = ({ participantModel }) => {
 
   participantRouter.get('/', participantController.getParticipants)
   participantRouter.get('/:idParticipant', participantController.getParticipantById)
+  participantRouter.get('/project/:idProject', participantController.getParticipantsByProject)
+  participantRouter.get('/founder/:idFounder', participantController.getParticipantsByFounder)
+  participantRouter.get('/activity/:idActivity', participantController.getParticipantsByActivity)
+  participantRouter.get('/user/:idUser', participantController.getParticipantsByUser)
   participantRouter.post('/', participantController.createParticipant)
   participantRouter.put('/:idParticipant', participantController.updateParticipant)
   participantRouter.delete('/:idParticipant', participantController.deleteParticipant)

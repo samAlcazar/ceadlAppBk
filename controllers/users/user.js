@@ -27,6 +27,7 @@ export class UserController {
   createUser = async (req, res) => {
     const result = validateUser(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: result.error.errors })
     }
     try {
@@ -41,6 +42,7 @@ export class UserController {
     const { idUser } = req.params
     const result = validateUser(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: result.error.errors })
     }
     try {

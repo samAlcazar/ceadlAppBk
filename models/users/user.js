@@ -31,10 +31,10 @@ export class UserModel {
     } = input
 
     const uuidResult = await pool.query('SELECT id_super_user FROM super_user')
-    const idSuperUser = uuidResult.rows[0]
+    const idSuperUser = uuidResult.rows[0].id_super_user
 
     try {
-      const result = await pool.query('SELECT create_user($1, $2, $3, $4, $5, $6, $7, $8) AS id_user', [nameUser, nickUser, passwordUser, chargeUser, signatureUser, idProfile, idSuperUser, idProject])
+      const result = await pool.query('SELECT create_user($1, $2, $3, $4, $5, $6, $7, $8)', [nameUser, nickUser, passwordUser, chargeUser, signatureUser, idProfile, idSuperUser, idProject])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error creating user: ' + error.message)
@@ -53,7 +53,7 @@ export class UserModel {
     } = input
 
     const uuidResult = await pool.query('SELECT id_super_user FROM super_user')
-    const idSuperUser = uuidResult.rows[0]
+    const idSuperUser = uuidResult.rows[0].id_super_user
 
     try {
       const result = await pool.query('SELECT update_user($1, $2, $3, $4, $5, $6, $7, $8, $9)', [idUser, nameUser, nickUser, passwordUser, chargeUser, signatureUser, idProfile, idSuperUser, idProject])
@@ -63,9 +63,9 @@ export class UserModel {
     }
   }
 
-  static async deleteUser ({ id }) {
+  static async deleteUser ({ idUser }) {
     try {
-      const result = await pool.query('SELECT delete_user($1)', [id])
+      const result = await pool.query('SELECT delete_user($1)', [idUser])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error deleting user: ' + error.message)

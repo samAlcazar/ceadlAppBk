@@ -57,6 +57,7 @@ export class ApplicationController {
   createApplication = async (req, res) => {
     const result = validateApplication(req.body)
     if (!result.success) {
+      console.log(result)
       return res.status(400).json({ error: result.error.errors })
     }
     try {

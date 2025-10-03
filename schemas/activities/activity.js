@@ -5,7 +5,7 @@ const activitySchema = z.object({
   dateStart: z.string(),
   dateEnd: z.string(),
   place: z.string().min(1).max(100),
-  participantsExpeted: z.number().min(1),
+  participantsExpected: z.number().min(1),
   objetive: z.string(),
   resultExpected: z.string(),
   descriptionActivity: z.string(),

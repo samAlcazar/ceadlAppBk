@@ -15,10 +15,8 @@ import { createSurrenderRouter } from './routes/accountabilities/surrender.js'
 import { createParticipantRouter } from './routes/participants/participant.js'
 import { createLoginRouter } from './routes/login/login.js'
 import { corsMiddleware } from './middlewares/cors.js'
-import { pool } from './config/dataBaseConect.js'
-
-const founders = await pool.query('SELECT id_super_user FROM super_user')
-console.log(founders.rows[0].id_super_user)
+import { createReportRouter } from './routes/reports/report.js'
+import { createQuantitativeReportRouter } from './routes/reports/quantitative.js'
 
 export const createApp = ({
   userModel,
@@ -29,6 +27,8 @@ export const createApp = ({
   projectActivityModel,
   projectResultModel,
   activityModel,
+  reportModel,
+  quantitativeReportModel,
   applicationModel,
   budgetModel,
   accountabilityModel,
@@ -56,9 +56,11 @@ export const createApp = ({
   app.use('/founders', createFounderRouter({ founderModel }))
   app.use('/projects', createProjectRouter({ projectModel }))
   app.use('/especifics', createEspecificRouter({ especificModel }))
-  app.use('/project-activities', createProjectActivityRouter({ projectActivityModel }))
-  app.use('/project-results', createProjectResultRouter({ projectResultModel }))
+  app.use('/projectActivities', createProjectActivityRouter({ projectActivityModel }))
+  app.use('/projectResults', createProjectResultRouter({ projectResultModel }))
   app.use('/activities', createActivityRouter({ activityModel }))
+  app.use('/reports', createReportRouter({ reportModel }))
+  app.use('/quantitatives', createQuantitativeReportRouter({ quantitativeReportModel }))
   app.use('/applications', createApplicationRouter({ applicationModel }))
   app.use('/budgets', createBudgetRouter({ budgetModel }))
   app.use('/accountabilities', createAccountabilityRouter({ accountabilityModel }))

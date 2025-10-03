@@ -1,7 +1,7 @@
 import z from 'zod'
 
 const participantSchema = z.object({
-  namePArticiapant: z.string().min(1).max(100),
+  nameParticipant: z.string().min(1).max(100),
   gender: z.string().min(1).max(20),
   age: z.number().min(1),
   organization: z.string().min(1).max(100),

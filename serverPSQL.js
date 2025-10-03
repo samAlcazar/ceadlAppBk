@@ -13,6 +13,8 @@ import { SurrenderModel } from './models/accountabilities/surrender.js'
 import { ParticipantModel } from './models/participants/participant.js'
 import { createApp } from './app.js'
 import { LoginModel } from './models/login/login.js'
+import { ReportModel } from './models/reports/report.js'
+import { QuantitativeReportModel } from './models/reports/quantitative.js'
 
 createApp({
   userModel: UserModel,
@@ -23,6 +25,8 @@ createApp({
   projectActivityModel: ProjectActivityModel,
   projectResultModel: ProjectResultModel,
   activityModel: ActivityModel,
+  reportModel: ReportModel,
+  quantitativeReportModel: QuantitativeReportModel,
   applicationModel: ApplicationModel,
   budgetModel: BudgetModel,
   accountabilityModel: AccountabilityModel,

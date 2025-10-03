@@ -2,6 +2,7 @@ import z from 'zod'
 
 const quantitativeReportSchema = z.object({
   achieved: z.number().min(0),
+  day: z.string().min(1),
   spFemale: z.number().min(0),
   spMale: z.number().min(0),
   fFemale: z.number().min(0),

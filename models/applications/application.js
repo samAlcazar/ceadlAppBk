@@ -49,14 +49,14 @@ export class ApplicationModel {
   static async createApplication ({ input }) {
     const {
       amount,
-      approves,
+      approved,
       idProject,
       idUser,
       idActivity
     } = input
 
     try {
-      const result = await pool.query('SELECT create_application($1, $2, $3, $4, $5)', [amount, approves, idProject, idUser, idActivity])
+      const result = await pool.query('SELECT create_application($1, $2, $3, $4, $5)', [amount, approved, idProject, idUser, idActivity])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error creating application: ' + error.message)
@@ -66,14 +66,14 @@ export class ApplicationModel {
   static async updateApplication ({ idApplication, input }) {
     const {
       amount,
-      approves,
+      approved,
       idProject,
       idUser,
       idActivity
     } = input
 
     try {
-      const result = await pool.query('SELECT update_application($1, $2, $3, $4, $5, $6)', [idApplication, amount, approves, idProject, idUser, idActivity])
+      const result = await pool.query('SELECT update_application($1, $2, $3, $4, $5, $6)', [idApplication, amount, approved, idProject, idUser, idActivity])
       return result.rows[0]
     } catch (error) {
       throw new Error('Error updating application: ' + error.message)
