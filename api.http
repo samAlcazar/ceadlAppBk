@@ -258,6 +258,150 @@ Content-Type: application/json
 }
 
 ###=====================================================================
+###ESPECIFICS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/especifics/bulk
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 10,
+    "especific": "Batch Test 1 - Authentication Module",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 11,
+    "especific": "Batch Test 2 - Authorization Module",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 12,
+    "especific": "Batch Test 3 - Data Validation Layer",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 13,
+    "especific": "Batch Test 4 - Error Handling System",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 14,
+    "especific": "Batch Test 5 - Logging Infrastructure",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 0,
+    "especific": "",
+    "idUser": "x",
+    "idProject": "y"
+  },
+  {
+    "numEspecific": -5,
+    "especific": null,
+    "idUser": "",
+    "idProject": ""
+  }
+]
+
+###Test partial validation failure (mixed scenario)
+POST http://localhost:4984/especifics/bulk
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 15,
+    "especific": "Valid Especific 1",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 0,
+    "especific": "",
+    "idUser": "",
+    "idProject": ""
+  },
+  {
+    "numEspecific": 16,
+    "especific": "Valid Especific 2",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test duplicate numEspecific values (business logic test)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 99,
+    "especific": "Duplicate Test 1",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 99,
+    "especific": "Duplicate Test 2",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/especifics/bulk
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 17,
+    "especific": "Missing fields test"
+  },
+  {
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 18,
+    "especific": "Non-existent User Test",
+    "idUser": "non-existent-user-id",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 19,
+    "especific": "Non-existent Project Test",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "non-existent-project-id"
+  }
+]
+
+###=====================================================================
 ###GET all Project Results
 GET http://localhost:4984/projectResults
 
@@ -334,6 +478,284 @@ Content-Type: application/json
 
 ###DELETE project activity by ID
 DELETE http://localhost:4984/projectActivities/c5141779-edcd-4d45-953f-d2e78b710389
+
+###=====================================================================
+###PROJECT ACTIVITIES - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple project activities using the modified endpoint (accepts array)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 1,
+    "projectActivity": "Requirements Analysis",
+    "category": "Planning",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 2,
+    "projectActivity": "System Architecture Design",
+    "category": "Design",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 3,
+    "projectActivity": "Database Schema Creation",
+    "category": "Development",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple project activities using the dedicated bulk endpoint
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 4,
+    "projectActivity": "Frontend Development",
+    "category": "Development",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 5,
+    "projectActivity": "Backend API Development",
+    "category": "Developmentfgh",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 6,
+    "projectActivity": "Unit Testing",
+    "category": "Testing",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 7,
+    "projectActivity": "Valid Activity",
+    "category": "Testing sdf",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+{
+  "numProjectActivity": 1,
+  "projectActivity": "This should fail because it's not an array",
+  "category": "Testing",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+{
+  "numProjectActivity": 8,
+  "projectActivity": "Single Activity Test",
+  "category": "Testing",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###PROJECT ACTIVITIES - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 10,
+    "projectActivity": "Sprint Planning Session",
+    "category": "Planning",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 11,
+    "projectActivity": "Daily Standup Meetings",
+    "category": "Management",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 12,
+    "projectActivity": "Code Review Process",
+    "category": "Development",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 13,
+    "projectActivity": "Integration Testing",
+    "category": "Testing",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 14,
+    "projectActivity": "Performance Optimization",
+    "category": "Optimization",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 0,
+    "projectActivity": "",
+    "category": "",
+    "idProject": "x",
+    "idUser": "y"
+  },
+  {
+    "numProjectActivity": -5,
+    "projectActivity": null,
+    "category": "A",
+    "idProject": "",
+    "idUser": ""
+  }
+]
+
+###Test partial validation failure (mixed scenario)
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 15,
+    "projectActivity": "Valid Activity 1",
+    "category": "Documentation",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 0,
+    "projectActivity": "",
+    "category": "",
+    "idProject": "",
+    "idUser": ""
+  },
+  {
+    "numProjectActivity": 16,
+    "projectActivity": "Valid Activity 2",
+    "category": "Deployment",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test duplicate numProjectActivity values (business logic test)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 99,
+    "projectActivity": "Duplicate Activity Test 1",
+    "category": "Testing",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 99,
+    "projectActivity": "Duplicate Activity Test 2",
+    "category": "Testing",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 17,
+    "projectActivity": "Missing fields test",
+    "category": "Testing"
+  },
+  {
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/projectActivities
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 18,
+    "projectActivity": "Non-existent User Test",
+    "category": "Testing",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "non-existent-user-id"
+  },
+  {
+    "numProjectActivity": 19,
+    "projectActivity": "Non-existent Project Test",
+    "category": "Testing",
+    "idProject": "non-existent-project-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test category validation with edge cases
+POST http://localhost:4984/projectActivities/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectActivity": 20,
+    "projectActivity": "Short Category Test",
+    "category": "A",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectActivity": 21,
+    "projectActivity": "Long Category Test",
+    "category": "This is a very long category name that exceeds the maximum allowed length of 100 characters which should fail validation",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
 
 ###=====================================================================
 ###GET all activities

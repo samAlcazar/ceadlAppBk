@@ -45,13 +45,59 @@ export class ProjectActivityController {
   }
 
   createProjectActivity = async (req, res) => {
-    const result = validateProjectActivity(req.body)
-    if (!result.success) {
-      return res.status(400).json({ error: result.error.errors })
+    const data = req.body
+    // Verificar si es un array o un objeto individual
+    const isArray = Array.isArray(data)
+    const itemsToValidate = isArray ? data : [data]
+    // Validar cada elemento
+    const validationResults = itemsToValidate.map(item => validateProjectActivity(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
     }
     try {
-      const createdProjectActivity = await this.projectActivityModel.createProjectActivity({ input: result.data })
-      res.status(201).json(createdProjectActivity)
+      const validatedData = validationResults.map(result => result.data)
+      if (isArray) {
+        // Crear múltiples registros
+        const createdProjectActivities = await this.projectActivityModel.createMultipleProjectActivities({ input: validatedData })
+        res.status(201).json(createdProjectActivities)
+      } else {
+        // Crear un solo registro (comportamiento original)
+        const createdProjectActivity = await this.projectActivityModel.createProjectActivity({ input: validatedData[0] })
+        res.status(201).json(createdProjectActivity)
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
+  }
+
+  createMultipleProjectActivities = async (req, res) => {
+    const data = req.body
+    if (!Array.isArray(data)) {
+      return res.status(400).json({ error: 'Expected an array of objects' })
+    }
+    // Validar cada elemento del array
+    const validationResults = data.map(item => validateProjectActivity(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
+    }
+    try {
+      const validatedData = validationResults.map(result => result.data)
+      const createdProjectActivities = await this.projectActivityModel.createMultipleProjectActivities({ input: validatedData })
+      res.status(201).json(createdProjectActivities)
     } catch (error) {
       res.status(500).json({ error: error.message })
     }

@@ -54,6 +54,33 @@ export class ProjectActivityModel {
     }
   }
 
+  static async createMultipleProjectActivities ({ input }) {
+    const client = await pool.connect()
+
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          numProjectActivity,
+          projectActivity,
+          category,
+          idProject,
+          idUser
+        } = item
+        const result = await client.query('SELECT create_project_activity($1, $2, $3, $4, $5)', [numProjectActivity, projectActivity, category, idProject, idUser])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error(`Error creating multiple project activities: ${error.message}`)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateProjectActivity ({ idProjectActivity, input }) {
     const {
       numProjectActivity,
