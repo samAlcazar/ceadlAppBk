@@ -1164,6 +1164,368 @@ Content-Type: application/json
 DELETE http://localhost:4984/quantitatives/cd4b7044-e22f-46ee-aeb4-1182b109647f
 
 ###=====================================================================
+###QUANTITATIVE REPORTS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple quantitatives using the modified endpoint (accepts array)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[
+  {
+    "achieved": 25,
+    "day": "2024-10-01",
+    "spFemale": 6,
+    "spMale": 9,
+    "fFemale": 4,
+    "fMale": 6,
+    "naFemale": 3,
+    "naMale": 4,
+    "pFemale": 7,
+    "pMale": 8,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 18,
+    "day": "2024-10-02",
+    "spFemale": 4,
+    "spMale": 7,
+    "fFemale": 3,
+    "fMale": 4,
+    "naFemale": 2,
+    "naMale": 3,
+    "pFemale": 5,
+    "pMale": 6,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 32,
+    "day": "2024-10-03",
+    "spFemale": 8,
+    "spMale": 12,
+    "fFemale": 5,
+    "fMale": 7,
+    "naFemale": 4,
+    "naMale": 6,
+    "pFemale": 9,
+    "pMale": 11,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple quantitatives using the dedicated bulk endpoint
+POST http://localhost:4984/quantitatives/bulk
+Content-Type: application/json
+
+[
+  {
+    "achieved": 28,
+    "day": "2024-10-04",
+    "spFemale": 7,
+    "spMale": 10,
+    "fFemale": 4,
+    "fMale": 5,
+    "naFemale": 3,
+    "naMale": 4,
+    "pFemale": 8,
+    "pMale": 9,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 22,
+    "day": "2024-10-05",
+    "spFemale": 5,
+    "spMale": 8,
+    "fFemale": 3,
+    "fMale": 4,
+    "naFemale": 2,
+    "naMale": 3,
+    "pFemale": 6,
+    "pMale": 7,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[
+  {
+    "achieved": 30,
+    "day": "2024-10-06",
+    "spFemale": 6,
+    "spMale": 9,
+    "fFemale": 4,
+    "fMale": 5,
+    "naFemale": 3,
+    "naMale": 4,
+    "pFemale": 7,
+    "pMale": 8,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/quantitatives/bulk
+Content-Type: application/json
+
+{
+  "achieved": 15,
+  "day": "2024-10-07",
+  "spFemale": 3,
+  "spMale": 6,
+  "fFemale": 2,
+  "fMale": 4,
+  "naFemale": 1,
+  "naMale": 2,
+  "pFemale": 4,
+  "pMale": 5,
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+{
+  "achieved": 35,
+  "day": "2024-10-08",
+  "spFemale": 8,
+  "spMale": 12,
+  "fFemale": 5,
+  "fMale": 7,
+  "naFemale": 4,
+  "naMale": 6,
+  "pFemale": 9,
+  "pMale": 11,
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###QUANTITATIVE REPORTS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/quantitatives/bulk
+Content-Type: application/json
+
+[
+  {
+    "achieved": 40,
+    "day": "2024-10-10",
+    "spFemale": 10,
+    "spMale": 15,
+    "fFemale": 6,
+    "fMale": 9,
+    "naFemale": 5,
+    "naMale": 7,
+    "pFemale": 12,
+    "pMale": 14,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 26,
+    "day": "2024-10-11",
+    "spFemale": 6,
+    "spMale": 9,
+    "fFemale": 4,
+    "fMale": 6,
+    "naFemale": 3,
+    "naMale": 5,
+    "pFemale": 8,
+    "pMale": 10,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 33,
+    "day": "2024-10-12",
+    "spFemale": 8,
+    "spMale": 12,
+    "fFemale": 5,
+    "fMale": 8,
+    "naFemale": 4,
+    "naMale": 6,
+    "pFemale": 10,
+    "pMale": 13,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 19,
+    "day": "2024-10-13",
+    "spFemale": 4,
+    "spMale": 7,
+    "fFemale": 3,
+    "fMale": 5,
+    "naFemale": 2,
+    "naMale": 4,
+    "pFemale": 6,
+    "pMale": 8,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 45,
+    "day": "2024-10-14",
+    "spFemale": 11,
+    "spMale": 16,
+    "fFemale": 7,
+    "fMale": 10,
+    "naFemale": 6,
+    "naMale": 8,
+    "pFemale": 13,
+    "pMale": 15,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[
+  {
+    "achieved": -5,
+    "day": "",
+    "spFemale": -1,
+    "spMale": -2,
+    "fFemale": -3,
+    "fMale": -4,
+    "naFemale": -5,
+    "naMale": -6,
+    "pFemale": -7,
+    "pMale": -8,
+    "idActivity": "",
+    "idUser": ""
+  },
+  {
+    "achieved": -10,
+    "day": null,
+    "spFemale": -1,
+    "spMale": -1,
+    "fFemale": -1,
+    "fMale": -1,
+    "naFemale": -1,
+    "naMale": -1,
+    "pFemale": -1,
+    "pMale": -1,
+    "idActivity": "",
+    "idUser": ""
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/quantitatives/bulk
+Content-Type: application/json
+
+[
+  {
+    "achieved": 20,
+    "day": "2024-10-15",
+    "spFemale": 5
+  },
+  {
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[
+  {
+    "achieved": 25,
+    "day": "2024-10-16",
+    "spFemale": 6,
+    "spMale": 9,
+    "fFemale": 4,
+    "fMale": 6,
+    "naFemale": 3,
+    "naMale": 4,
+    "pFemale": 7,
+    "pMale": 8,
+    "idActivity": "non-existent-activity-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "achieved": 30,
+    "day": "2024-10-17",
+    "spFemale": 7,
+    "spMale": 10,
+    "fFemale": 5,
+    "fMale": 7,
+    "naFemale": 4,
+    "naMale": 5,
+    "pFemale": 8,
+    "pMale": 9,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "non-existent-user-id"
+  }
+]
+
+###Test edge cases with zero values
+POST http://localhost:4984/quantitatives/bulk
+Content-Type: application/json
+
+[
+  {
+    "achieved": 0,
+    "day": "2024-10-18",
+    "spFemale": 0,
+    "spMale": 0,
+    "fFemale": 0,
+    "fMale": 0,
+    "naFemale": 0,
+    "naMale": 0,
+    "pFemale": 0,
+    "pMale": 0,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with very high numbers (stress test)
+POST http://localhost:4984/quantitatives
+Content-Type: application/json
+
+[
+  {
+    "achieved": 9999,
+    "day": "2024-10-19",
+    "spFemale": 1000,
+    "spMale": 1500,
+    "fFemale": 800,
+    "fMale": 1200,
+    "naFemale": 600,
+    "naMale": 900,
+    "pFemale": 1100,
+    "pMale": 1400,
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###=====================================================================
 ###APPLICATIONS
 ###GET all applications
 GET http://localhost:4984/applications

@@ -9,6 +9,7 @@ export const createQuantitativeReportRouter = ({ quantitativeReportModel }) => {
   quantitativeReportRouter.get('/activity/:idActivity', quantitativeReportController.getQuantitativesByActivity)
   quantitativeReportRouter.get('/user/:idUser', quantitativeReportController.getQuantitativesByUser)
   quantitativeReportRouter.post('/', quantitativeReportController.createQuantitative)
+  quantitativeReportRouter.post('/bulk', quantitativeReportController.createMultipleQuantitatives)
   quantitativeReportRouter.put('/:idQuantitative', quantitativeReportController.updateQuantitative)
   quantitativeReportRouter.delete('/:idQuantitative', quantitativeReportController.deleteQuantitative)
 
