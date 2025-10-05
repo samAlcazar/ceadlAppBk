@@ -45,13 +45,59 @@ export class EspecificController {
   }
 
   createEspecific = async (req, res) => {
-    const result = validateEspecific(req.body)
-    if (!result.success) {
-      return res.status(400).json({ error: result.error.errors })
+    const data = req.body
+    // Verificar si es un array o un objeto individual
+    const isArray = Array.isArray(data)
+    const itemsToValidate = isArray ? data : [data]
+    // Validar cada elemento
+    const validationResults = itemsToValidate.map(item => validateEspecific(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
     }
     try {
-      const createdEspecific = await this.especificModel.createEspecific({ input: result.data })
-      res.status(201).json(createdEspecific)
+      const validatedData = validationResults.map(result => result.data)
+      if (isArray) {
+        // Crear múltiples registros
+        const createdEspecifics = await this.especificModel.createMultipleEspecifics({ input: validatedData })
+        res.status(201).json(createdEspecifics)
+      } else {
+        // Crear un solo registro (comportamiento original)
+        const createdEspecific = await this.especificModel.createEspecific({ input: validatedData[0] })
+        res.status(201).json(createdEspecific)
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
+  }
+
+  createMultipleEspecifics = async (req, res) => {
+    const data = req.body
+    if (!Array.isArray(data)) {
+      return res.status(400).json({ error: 'Expected an array of objects' })
+    }
+    // Validar cada elemento del array
+    const validationResults = data.map(item => validateEspecific(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
+    }
+    try {
+      const validatedData = validationResults.map(result => result.data)
+      const createdEspecifics = await this.especificModel.createMultipleEspecifics({ input: validatedData })
+      res.status(201).json(createdEspecifics)
     } catch (error) {
       res.status(500).json({ error: error.message })
     }

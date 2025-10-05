@@ -175,6 +175,89 @@ Content-Type: application/json
 DELETE http://localhost:4984/especifics/977137c7-53a7-4502-a072-3072e633bd71
 
 ###=====================================================================
+###ESPECIFICS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple especifics using the modified endpoint (accepts array)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 1,
+    "especific": "User Authentication System",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 2,
+    "especific": "Password Reset Functionality",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 3,
+    "especific": "Email Notification Service",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Create multiple especifics using the dedicated bulk endpoint
+POST http://localhost:4984/especifics/bulk
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 4,
+    "especific": "API Documentation",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  },
+  {
+    "numEspecific": 5,
+    "especific": "Unit Testing Implementation",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+[
+  {
+    "numEspecific": 6,
+    "especific": "Valid Especific",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/especifics/bulk
+Content-Type: application/json
+
+{
+  "numEspecific": 1,
+  "especific": "This should fail because it's not an array",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/especifics
+Content-Type: application/json
+
+{
+  "numEspecific": 7,
+  "especific": "Single Object Test",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
+}
+
+###=====================================================================
 ###GET all Project Results
 GET http://localhost:4984/projectResults
 

@@ -53,6 +53,32 @@ export class EspecificModel {
     }
   }
 
+  static async createMultipleEspecifics ({ input }) {
+    const client = await pool.connect()
+
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          numEspecific,
+          especific,
+          idUser,
+          idProject
+        } = item
+        const result = await client.query('SELECT create_especific($1, $2, $3, $4)', [numEspecific, especific, idUser, idProject])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error(`Error creating multiple especifics: ${error.message}`)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateEspecific ({ idEspecific, input }) {
     const {
       numEspecific,

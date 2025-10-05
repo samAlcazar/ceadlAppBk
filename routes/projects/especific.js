@@ -11,6 +11,7 @@ export const createEspecificRouter = ({ especificModel }) => {
   especificRouter.get('/project/:idProject', especificController.getEspecificsByProject)
   especificRouter.get('/user/:idUser', especificController.getEspecificsByUser)
   especificRouter.post('/', especificController.createEspecific)
+  especificRouter.post('/bulk', especificController.createMultipleEspecifics)
   especificRouter.put('/:idEspecific', especificController.updateEspecific)
   especificRouter.delete('/:idEspecific', especificController.deleteEspecific)
 
