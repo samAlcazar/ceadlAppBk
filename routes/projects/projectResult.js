@@ -11,6 +11,7 @@ export const createProjectResultRouter = ({ projectResultModel }) => {
   projectResultRouter.get('/project/:idProject', projectResultController.getProjectResultsByProject)
   projectResultRouter.get('/user/:idUser', projectResultController.getProjectResultsByUser)
   projectResultRouter.post('/', projectResultController.createProjectResult)
+  projectResultRouter.post('/bulk', projectResultController.createMultipleProjectResults)
   projectResultRouter.put('/:idProjectResult', projectResultController.updateProjectResult)
   projectResultRouter.delete('/:idProjectResult', projectResultController.deleteProjectResult)
 

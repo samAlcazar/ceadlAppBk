@@ -440,6 +440,252 @@ Content-Type: application/json
 DELETE http://localhost:4984/projectResults/d7172750-46fd-4cc5-ac71-2efeab6a527f
 
 ###=====================================================================
+###PROJECT RESULTS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple project results using the modified endpoint (accepts array)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 1,
+    "projectResult": "Project Specification Document",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 2,
+    "projectResult": "Technical Architecture Design",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 3,
+    "projectResult": "Database Design Document",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple project results using the dedicated bulk endpoint
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 4,
+    "projectResult": "User Interface Mockups",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 5,
+    "projectResult": "API Documentation",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 6,
+    "projectResult": "Testing Strategy Document",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 7,
+    "projectResult": "Valid Result",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+{
+  "numProjectResult": 1,
+  "projectResult": "This should fail because it's not an array",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+{
+  "numProjectResult": 8,
+  "projectResult": "Single Result Test",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###PROJECT RESULTS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 10,
+    "projectResult": "Project Charter Document",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 11,
+    "projectResult": "Stakeholder Analysis Report",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 12,
+    "projectResult": "Risk Assessment Matrix",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 13,
+    "projectResult": "Communication Plan",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 14,
+    "projectResult": "Quality Assurance Plan",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 0,
+    "projectResult": "",
+    "idProject": "x",
+    "idUser": "y"
+  },
+  {
+    "numProjectResult": -5,
+    "projectResult": null,
+    "idProject": "",
+    "idUser": ""
+  }
+]
+
+###Test partial validation failure (mixed scenario)
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 15,
+    "projectResult": "Valid Project Result 1",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 0,
+    "projectResult": "",
+    "idProject": "",
+    "idUser": ""
+  },
+  {
+    "numProjectResult": 16,
+    "projectResult": "Valid Project Result 2",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test duplicate numProjectResult values (business logic test)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 99,
+    "projectResult": "Duplicate Result Test 1",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "numProjectResult": 99,
+    "projectResult": "Duplicate Result Test 2",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 17,
+    "projectResult": "Missing fields test"
+  },
+  {
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/projectResults
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 18,
+    "projectResult": "Non-existent User Test",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "non-existent-user-id"
+  },
+  {
+    "numProjectResult": 19,
+    "projectResult": "Non-existent Project Test",
+    "idProject": "non-existent-project-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test edge cases with very long strings
+POST http://localhost:4984/projectResults/bulk
+Content-Type: application/json
+
+[
+  {
+    "numProjectResult": 20,
+    "projectResult": "This is a very long project result description that tests the string length limits and database capacity to handle extended text content for comprehensive documentation and detailed reporting purposes that may exceed normal expectations for standard project result descriptions",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###=====================================================================
 ###GET all project activities
 GET http://localhost:4984/projectActivities
 

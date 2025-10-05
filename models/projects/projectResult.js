@@ -53,6 +53,31 @@ export class ProjectResultModel {
     }
   }
 
+  static async createMultipleProjectResults ({ input }) {
+    const client = await pool.connect()
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          numProjectResult,
+          projectResult,
+          idProject,
+          idUser
+        } = item
+        const result = await client.query('SELECT create_project_result($1, $2, $3, $4)', [numProjectResult, projectResult, idProject, idUser])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error(`Error creating multiple project results: ${error.message}`)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateProjectResult ({ idProjectResult, input }) {
     const {
       numProjectResult,
