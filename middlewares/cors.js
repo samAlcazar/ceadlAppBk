@@ -1,6 +1,8 @@
 import cors from 'cors'
 
 const ACCEPTED_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:5174',
   'http://192.168.40.110:5173',
   'http://192.168.40.110:5174',
   'http://192.168.40.110:1234'
