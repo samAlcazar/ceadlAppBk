@@ -3,7 +3,7 @@ import { pool } from '../../config/dataBaseConect.js'
 export class FounderModel {
   static async getAllFounders () {
     try {
-      const result = await pool.query('SELECT cod_founder, name_founder FROM founders')
+      const result = await pool.query('SELECT id_founder, cod_founder, name_founder FROM founders')
       return result.rows
     } catch (error) {
       throw new Error('Error fetching founders: ' + error.message)

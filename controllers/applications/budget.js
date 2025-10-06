@@ -55,13 +55,59 @@ export class BudgetController {
   }
 
   createBudget = async (req, res) => {
-    const result = validateBudget(req.body)
-    if (!result.success) {
-      return res.status(400).json({ error: result.error.errors })
+    const data = req.body
+    // Verificar si es un array o un objeto individual
+    const isArray = Array.isArray(data)
+    const itemsToValidate = isArray ? data : [data]
+    // Validar cada elemento
+    const validationResults = itemsToValidate.map(item => validateBudget(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
     }
     try {
-      const createdBudget = await this.budgetModel.createBudget({ input: result.data })
-      res.status(201).json(createdBudget)
+      const validatedData = validationResults.map(result => result.data)
+      if (isArray) {
+        // Crear múltiples registros
+        const createdBudgets = await this.budgetModel.createMultipleBudgets({ input: validatedData })
+        res.status(201).json(createdBudgets)
+      } else {
+        // Crear un solo registro (comportamiento original)
+        const createdBudget = await this.budgetModel.createBudget({ input: validatedData[0] })
+        res.status(201).json(createdBudget)
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
+  }
+
+  createMultipleBudgets = async (req, res) => {
+    const data = req.body
+    if (!Array.isArray(data)) {
+      return res.status(400).json({ error: 'Expected an array of objects' })
+    }
+    // Validar cada elemento del array
+    const validationResults = data.map(item => validateBudget(item))
+    const hasErrors = validationResults.some(result => !result.success)
+    if (hasErrors) {
+      const errors = validationResults
+        .filter(result => !result.success)
+        .map((result, index) => ({
+          index,
+          errors: result.error.errors
+        }))
+      return res.status(400).json({ error: 'Validation errors', details: errors })
+    }
+    try {
+      const validatedData = validationResults.map(result => result.data)
+      const createdBudgets = await this.budgetModel.createMultipleBudgets({ input: validatedData })
+      res.status(201).json(createdBudgets)
     } catch (error) {
       res.status(500).json({ error: error.message })
     }

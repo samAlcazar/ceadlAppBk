@@ -1620,6 +1620,303 @@ Content-Type: application/json
 DELETE http://localhost:4984/budgets/05ed46d4-7a0e-48d8-8ffb-47fe21fe2db0
 
 ###=====================================================================
+###BUDGETS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple budgets using the modified endpoint (accepts array)
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[
+  {
+    "quantity": 5,
+    "code": "BDG100",
+    "description": "Computer equipment and hardware",
+    "importUSD": 1200.00,
+    "importBOB": 8400.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 20,
+    "code": "BDG101",
+    "description": "Office furniture and fixtures",
+    "importUSD": 800.00,
+    "importBOB": 5600.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 50,
+    "code": "BDG102",
+    "description": "Marketing and advertising materials",
+    "importUSD": 600.00,
+    "importBOB": 4200.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple budgets using the dedicated bulk endpoint
+POST http://localhost:4984/budgets/bulk
+Content-Type: application/json
+
+[
+  {
+    "quantity": 8,
+    "code": "BDG200",
+    "description": "Software licenses and subscriptions",
+    "importUSD": 2000.00,
+    "importBOB": 14000.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 12,
+    "code": "BDG201",
+    "description": "Training and professional development",
+    "importUSD": 1500.00,
+    "importBOB": 10500.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[
+  {
+    "quantity": 10,
+    "code": "BDG300",
+    "description": "Valid budget item",
+    "importUSD": 300.00,
+    "importBOB": 2100.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/budgets/bulk
+Content-Type: application/json
+
+{
+  "quantity": 5,
+  "code": "BDG400",
+  "description": "This should fail because it's not an array",
+  "importUSD": 400.00,
+  "importBOB": 2800.00,
+  "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+{
+  "quantity": 25,
+  "code": "BDG500",
+  "description": "Single Budget Test Item",
+  "importUSD": 900.00,
+  "importBOB": 6300.00,
+  "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###BUDGETS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/budgets/bulk
+Content-Type: application/json
+
+[
+  {
+    "quantity": 100,
+    "code": "BDG600",
+    "description": "Large scale office supplies procurement",
+    "importUSD": 5000.00,
+    "importBOB": 35000.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 3,
+    "code": "BDG601",
+    "description": "High-end server infrastructure",
+    "importUSD": 15000.00,
+    "importBOB": 105000.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 50,
+    "code": "BDG602",
+    "description": "Employee training and certification programs",
+    "importUSD": 3000.00,
+    "importBOB": 21000.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 200,
+    "code": "BDG603",
+    "description": "Marketing campaign materials and distribution",
+    "importUSD": 2500.00,
+    "importBOB": 17500.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 15,
+    "code": "BDG604",
+    "description": "Professional consulting and advisory services",
+    "importUSD": 8000.00,
+    "importBOB": 56000.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[
+  {
+    "quantity": 0,
+    "code": "",
+    "description": "",
+    "importUSD": 0,
+    "importBOB": 0,
+    "idApplication": "",
+    "idFounder": "",
+    "idUser": ""
+  },
+  {
+    "quantity": -5,
+    "code": null,
+    "description": null,
+    "importUSD": -100,
+    "importBOB": -700,
+    "idApplication": "",
+    "idFounder": "",
+    "idUser": ""
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/budgets/bulk
+Content-Type: application/json
+
+[
+  {
+    "quantity": 10,
+    "code": "BDG700",
+    "description": "Missing fields test"
+  },
+  {
+    "importUSD": 500.00,
+    "importBOB": 3500.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[
+  {
+    "quantity": 5,
+    "code": "BDG800",
+    "description": "Non-existent Application Test",
+    "importUSD": 300.00,
+    "importBOB": 2100.00,
+    "idApplication": "non-existent-application-id",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 8,
+    "code": "BDG801",
+    "description": "Non-existent Founder Test",
+    "importUSD": 400.00,
+    "importBOB": 2800.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "non-existent-founder-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test edge cases with currency values
+POST http://localhost:4984/budgets/bulk
+Content-Type: application/json
+
+[
+  {
+    "quantity": 1,
+    "code": "BDG900",
+    "description": "Minimal currency values test",
+    "importUSD": 1.00,
+    "importBOB": 7.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "quantity": 1000,
+    "code": "BDG901",
+    "description": "Maximum currency values test",
+    "importUSD": 999999.99,
+    "importBOB": 6999999.93,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with code length limits
+POST http://localhost:4984/budgets
+Content-Type: application/json
+
+[
+  {
+    "quantity": 5,
+    "code": "ThisIsAVeryLongBudgetCodeThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "description": "Code length test",
+    "importUSD": 200.00,
+    "importBOB": 1400.00,
+    "idApplication": "71b77820-f82c-430e-8abb-1242ea82ec88",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###=====================================================================
 ###ACCOUNTABILITIES
 ###GET all accountabilities
 GET http://localhost:4984/accountabilities
@@ -1711,6 +2008,320 @@ Content-Type: application/json
 
 ###DELETE surrender by ID
 DELETE http://localhost:4984/surrenders/983e27ba-3d20-4dbb-800f-645af2490189
+
+###=====================================================================
+###SURRENDERS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple surrenders using the modified endpoint (accepts array)
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-01",
+    "invoiceNumber": "INV-2024-100",
+    "code": "SUR100",
+    "description": "Computer hardware and peripherals",
+    "importUSD": 2500.00,
+    "importBOB": 17500.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-02",
+    "invoiceNumber": "INV-2024-101",
+    "code": "SUR101",
+    "description": "Office furniture and workspace setup",
+    "importUSD": 1800.00,
+    "importBOB": 12600.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-03",
+    "invoiceNumber": "INV-2024-102",
+    "code": "SUR102",
+    "description": "Software licenses and cloud services",
+    "importUSD": 1200.00,
+    "importBOB": 8400.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple surrenders using the dedicated bulk endpoint
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-04",
+    "invoiceNumber": "INV-2024-200",
+    "code": "SUR200",
+    "description": "Marketing campaign and advertising materials",
+    "importUSD": 3000.00,
+    "importBOB": 21000.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-05",
+    "invoiceNumber": "INV-2024-201",
+    "code": "SUR201",
+    "description": "Professional training and certification",
+    "importUSD": 2200.00,
+    "importBOB": 15400.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-06",
+    "invoiceNumber": "INV-2024-300",
+    "code": "SUR300",
+    "description": "Valid surrender entry",
+    "importUSD": 800.00,
+    "importBOB": 5600.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+{
+  "dateInvoice": "2024-10-07",
+  "invoiceNumber": "INV-2024-400",
+  "code": "SUR400",
+  "description": "This should fail because it's not an array",
+  "importUSD": 500.00,
+  "importBOB": 3500.00,
+  "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+{
+  "dateInvoice": "2024-10-08",
+  "invoiceNumber": "INV-2024-500",
+  "code": "SUR500",
+  "description": "Single Surrender Test Item",
+  "importUSD": 1000.00,
+  "importBOB": 7000.00,
+  "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###SURRENDERS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-10",
+    "invoiceNumber": "INV-2024-600",
+    "code": "SUR600",
+    "description": "Large equipment acquisition and installation",
+    "importUSD": 15000.00,
+    "importBOB": 105000.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-11",
+    "invoiceNumber": "INV-2024-601",
+    "code": "SUR601",
+    "description": "Facility renovation and infrastructure",
+    "importUSD": 8500.00,
+    "importBOB": 59500.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-12",
+    "invoiceNumber": "INV-2024-602",
+    "code": "SUR602",
+    "description": "Security systems and surveillance equipment",
+    "importUSD": 4200.00,
+    "importBOB": 29400.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-13",
+    "invoiceNumber": "INV-2024-603",
+    "code": "SUR603",
+    "description": "Communication systems and networking",
+    "importUSD": 6800.00,
+    "importBOB": 47600.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-14",
+    "invoiceNumber": "INV-2024-604",
+    "code": "SUR604",
+    "description": "Consulting services and expert advisory",
+    "importUSD": 12000.00,
+    "importBOB": 84000.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "",
+    "invoiceNumber": "",
+    "code": "",
+    "description": "",
+    "importUSD": 0,
+    "importBOB": 0,
+    "idAccountability": "",
+    "idUser": ""
+  },
+  {
+    "dateInvoice": null,
+    "invoiceNumber": null,
+    "code": null,
+    "description": null,
+    "importUSD": -100,
+    "importBOB": -700,
+    "idAccountability": "",
+    "idUser": ""
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-15",
+    "invoiceNumber": "INV-2024-700",
+    "code": "SUR700"
+  },
+  {
+    "importUSD": 500.00,
+    "importBOB": 3500.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-16",
+    "invoiceNumber": "INV-2024-800",
+    "code": "SUR800",
+    "description": "Non-existent Accountability Test",
+    "importUSD": 300.00,
+    "importBOB": 2100.00,
+    "idAccountability": "non-existent-accountability-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-17",
+    "invoiceNumber": "INV-2024-801",
+    "code": "SUR801",
+    "description": "Non-existent User Test",
+    "importUSD": 400.00,
+    "importBOB": 2800.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "non-existent-user-id"
+  }
+]
+
+###Test edge cases with invoice numbers and codes
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-18",
+    "invoiceNumber": "A",
+    "code": "B",
+    "description": "Minimal length test",
+    "importUSD": 1.00,
+    "importBOB": 7.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "dateInvoice": "2024-10-19",
+    "invoiceNumber": "ThisIsAVeryLongInvoiceNumberThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFail",
+    "code": "ThisIsAVeryLongCodeThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "description": "Length validation test",
+    "importUSD": 200.00,
+    "importBOB": 1400.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with date format validation
+POST http://localhost:4984/surrenders
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "invalid-date-format",
+    "invoiceNumber": "INV-2024-900",
+    "code": "SUR900",
+    "description": "Invalid date format test",
+    "importUSD": 100.00,
+    "importBOB": 700.00,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with maximum currency values
+POST http://localhost:4984/surrenders/bulk
+Content-Type: application/json
+
+[
+  {
+    "dateInvoice": "2024-10-20",
+    "invoiceNumber": "INV-2024-1000",
+    "code": "SUR1000",
+    "description": "Maximum value stress test",
+    "importUSD": 999999.99,
+    "importBOB": 6999999.93,
+    "idAccountability": "62a6014a-5846-4000-8421-3bbb95047a3c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
 
 ###=====================================================================
 ###PARTICIPANTS

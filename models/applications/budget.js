@@ -66,6 +66,35 @@ export class BudgetModel {
     }
   }
 
+  static async createMultipleBudgets ({ input }) {
+    const client = await pool.connect()
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          quantity,
+          code,
+          description,
+          importUSD,
+          importBOB,
+          idApplication,
+          idFounder,
+          idUser
+        } = item
+        const result = await client.query('SELECT create_budget($1, $2, $3, $4, $5, $6, $7, $8)', [quantity, code, description, importUSD, importBOB, idApplication, idFounder, idUser])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error('Error creating multiple budgets: ' + error.message)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateBudget ({ idBudget, input }) {
     const {
       quantity,

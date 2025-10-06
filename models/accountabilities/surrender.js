@@ -57,6 +57,35 @@ export class SurrenderModel {
     }
   }
 
+  static async createMultipleSurrenders ({ input }) {
+    const client = await pool.connect()
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          dateInvoice,
+          invoiceNumber,
+          code,
+          description,
+          importUSD,
+          importBOB,
+          idAccountability,
+          idUser
+        } = item
+        const result = await client.query('SELECT create_surrender($1, $2, $3, $4, $5, $6, $7, $8)', [dateInvoice, invoiceNumber, code, description, importUSD, importBOB, idAccountability, idUser])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error('Error creating multiple surrenders: ' + error.message)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateSurrender ({ idSurrender, input }) {
     const {
       dateInvoice,

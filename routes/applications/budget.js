@@ -12,6 +12,7 @@ export const createBudgetRouter = ({ budgetModel }) => {
   budgetRouter.get('/user/:idUser', budgetController.getBudgetByUser)
   budgetRouter.get('/founder/:idFounder', budgetController.getUsersByFounder)
   budgetRouter.post('/', budgetController.createBudget)
+  budgetRouter.post('/bulk', budgetController.createMultipleBudgets)
   budgetRouter.put('/:idBudget', budgetController.updateBudget)
   budgetRouter.delete('/:idBudget', budgetController.deleteBudget)
 

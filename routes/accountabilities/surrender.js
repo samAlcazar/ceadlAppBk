@@ -11,6 +11,7 @@ export const createSurrenderRouter = ({ surrenderModel }) => {
   surrenderRouter.get('/accountability/:idAccountability', surrenderController.getSurrenderByAccountability)
   surrenderRouter.get('/user/:idUser', surrenderController.getSurrenderByUser)
   surrenderRouter.post('/', surrenderController.createSurrender)
+  surrenderRouter.post('/bulk', surrenderController.createMultipleSurrenders)
   surrenderRouter.put('/:idSurrender', surrenderController.updateSurrender)
   surrenderRouter.delete('/:idSurrender', surrenderController.deleteSurrender)
 
