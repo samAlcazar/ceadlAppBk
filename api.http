@@ -161,13 +161,13 @@ Content-Type: application/json
 }
 
 ###Update especific by ID
-PUT http://localhost:4984/especifics/977137c7-53a7-4502-a072-3072e633bd71
+PUT http://localhost:4984/especifics/ab33b5cf-d694-43da-a6c4-23c0d33812ec
 Content-Type: application/json
 
 {
-  "numEspecific": 2,
-  "especific": "User Profile Page",
-  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3",
+  "numEspecific": 40,
+  "especific": "User Profile Page sdf",
+  "idUser": "45aeea93-e87a-4d4c-837c-773ae515f5d9",
   "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5"
 }
 
