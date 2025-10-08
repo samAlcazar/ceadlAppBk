@@ -96,6 +96,7 @@ export class BudgetController {
     const validationResults = data.map(item => validateBudget(item))
     const hasErrors = validationResults.some(result => !result.success)
     if (hasErrors) {
+      console.log(validationResults)
       const errors = validationResults
         .filter(result => !result.success)
         .map((result, index) => ({

@@ -121,7 +121,7 @@ export class QuantitativeReportController {
     const { idQuantitative } = req.params
     try {
       await this.quantitativeReportModel.deleteQuantitative({ idQuantitative })
-      res.status(204).send()
+      res.status(204).json({ message: 'Quantitative report deleted successfully' })
     } catch (error) {
       res.status(500).json({ error: error.message })
     }
