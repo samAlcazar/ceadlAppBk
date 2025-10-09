@@ -46,6 +46,7 @@ export class LoginController {
   authorized = async (req, res) => {
     const token = req.cookies.acces_token
     if (!token) {
+      console.log(token)
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
