@@ -13,6 +13,7 @@ export const createParticipantRouter = ({ participantModel }) => {
   participantRouter.get('/activity/:idActivity', participantController.getParticipantsByActivity)
   participantRouter.get('/user/:idUser', participantController.getParticipantsByUser)
   participantRouter.post('/', participantController.createParticipant)
+  participantRouter.post('/bulk', participantController.createMultipleParticipants)
   participantRouter.put('/:idParticipant', participantController.updateParticipant)
   participantRouter.delete('/:idParticipant', participantController.deleteParticipant)
 

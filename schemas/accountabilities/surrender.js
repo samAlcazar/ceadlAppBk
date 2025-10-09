@@ -5,7 +5,7 @@ const surrenderSchema = z.object({
   invoiceNumber: z.string().min(1).max(100),
   code: z.string().min(1).max(100),
   description: z.string().min(1).max(200),
-  importUSD: z.number().min(1),
+  importUSD: z.number(),
   importBOB: z.number().min(1),
   idAccountability: z.string().min(1),
   idUser: z.string().min(1)

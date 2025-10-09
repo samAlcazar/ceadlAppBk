@@ -79,6 +79,39 @@ export class ParticipantModel {
     }
   }
 
+  static async createMultipleParticipants ({ input }) {
+    const client = await pool.connect()
+    try {
+      await client.query('BEGIN')
+      const results = []
+      for (const item of input) {
+        const {
+          nameParticipant,
+          gender,
+          age,
+          organization,
+          phone,
+          typeParticipant,
+          municipality,
+          typeOrganization,
+          idProject,
+          idFounder,
+          idActivity,
+          idUser
+        } = item
+        const result = await client.query('SELECT create_participant($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [nameParticipant, gender, age, organization, phone, typeParticipant, municipality, typeOrganization, idProject, idFounder, idActivity, idUser])
+        results.push(result.rows[0])
+      }
+      await client.query('COMMIT')
+      return results
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw new Error('Error creating multiple participants: ' + error.message)
+    } finally {
+      client.release()
+    }
+  }
+
   static async updateParticipant ({ idParticipant, input }) {
     const {
       nameParticipant,

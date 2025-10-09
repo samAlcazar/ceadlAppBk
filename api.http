@@ -2385,6 +2385,410 @@ Content-Type: application/json
 DELETE http://localhost:4984/participants/d077abbb-18e5-4df8-b006-83ee76eac4cf
 
 ###=====================================================================
+###PARTICIPANTS - BULK OPERATIONS (NEW FUNCTIONALITY)
+###=====================================================================
+
+###Create multiple participants using the modified endpoint (accepts array)
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Carlos Mendez",
+    "gender": "Male",
+    "age": 32,
+    "organization": "Universidad Mayor de San Andrés",
+    "phone": "+591-70123456",
+    "typeParticipant": "Student",
+    "municipality": "La Paz",
+    "typeOrganization": "University",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Ana Patricia Silva",
+    "gender": "Female",
+    "age": 26,
+    "organization": "Fundación Milenio",
+    "phone": "+591-70234567",
+    "typeParticipant": "Professional",
+    "municipality": "Santa Cruz",
+    "typeOrganization": "Foundation",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Roberto Vargas",
+    "gender": "Male",
+    "age": 45,
+    "organization": "Gobierno Autónomo Municipal",
+    "phone": "+591-70345678",
+    "typeParticipant": "Government Official",
+    "municipality": "Cochabamba",
+    "typeOrganization": "Government",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Create multiple participants using the dedicated bulk endpoint
+POST http://localhost:4984/participants/bulk
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Lucia Fernandez",
+    "gender": "Female",
+    "age": 34,
+    "organization": "ONG Desarrollo Sostenible",
+    "phone": "+591-70456789",
+    "typeParticipant": "NGO Coordinator",
+    "municipality": "Tarija",
+    "typeOrganization": "NGO",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Miguel Angel Torrez",
+    "gender": "Male",
+    "age": 29,
+    "organization": "Cámara de Comercio",
+    "phone": "+591-70567890",
+    "typeParticipant": "Business Representative",
+    "municipality": "Oruro",
+    "typeOrganization": "Private",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test validation errors with mixed valid/invalid data
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Valid Participant",
+    "gender": "Female",
+    "age": 30,
+    "organization": "Valid Organization",
+    "phone": "+591-70111222",
+    "typeParticipant": "Participant",
+    "municipality": "La Paz",
+    "typeOrganization": "NGO",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "",
+    "gender": "",
+    "age": 0,
+    "organization": "",
+    "phone": "",
+    "typeParticipant": "",
+    "municipality": "",
+    "typeOrganization": "",
+    "idProject": "",
+    "idFounder": "",
+    "idActivity": "",
+    "idUser": ""
+  }
+]
+
+###Test bulk endpoint with invalid array (should return error)
+POST http://localhost:4984/participants/bulk
+Content-Type: application/json
+
+{
+  "nameParticipant": "Should Fail",
+  "gender": "Male",
+  "age": 25,
+  "organization": "Test Organization",
+  "phone": "+591-70999888",
+  "typeParticipant": "Test",
+  "municipality": "Test City",
+  "typeOrganization": "Test Type",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###Test single object creation (original functionality still works)
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+{
+  "nameParticipant": "Single Participant Test",
+  "gender": "Other",
+  "age": 27,
+  "organization": "Single Test Organization",
+  "phone": "+591-70888777",
+  "typeParticipant": "Test Participant",
+  "municipality": "Test Municipality",
+  "typeOrganization": "Test Organization Type",
+  "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+  "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+  "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+  "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+}
+
+###=====================================================================
+###PARTICIPANTS - ADDITIONAL BULK TESTS (COMPREHENSIVE TESTING)
+###=====================================================================
+
+###Test empty array (should return empty result)
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[]
+
+###Test large batch creation (stress test)
+POST http://localhost:4984/participants/bulk
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Elena Gonzalez",
+    "gender": "Female",
+    "age": 38,
+    "organization": "Ministerio de Educación",
+    "phone": "+591-71111111",
+    "typeParticipant": "Education Specialist",
+    "municipality": "Sucre",
+    "typeOrganization": "Government",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Pedro Martinez",
+    "gender": "Male",
+    "age": 42,
+    "organization": "Servicio Nacional de Salud",
+    "phone": "+591-72222222",
+    "typeParticipant": "Health Professional",
+    "municipality": "Potosí",
+    "typeOrganization": "Public Health",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Carla Herrera",
+    "gender": "Female",
+    "age": 31,
+    "organization": "Centro de Investigación",
+    "phone": "+591-73333333",
+    "typeParticipant": "Researcher",
+    "municipality": "Beni",
+    "typeOrganization": "Research",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Jorge Luis Quispe",
+    "gender": "Male",
+    "age": 36,
+    "organization": "Cooperativa Minera",
+    "phone": "+591-74444444",
+    "typeParticipant": "Worker Representative",
+    "municipality": "Pando",
+    "typeOrganization": "Cooperative",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Silvia Mamani",
+    "gender": "Female",
+    "age": 24,
+    "organization": "Organización Juvenil",
+    "phone": "+591-75555555",
+    "typeParticipant": "Youth Leader",
+    "municipality": "El Alto",
+    "typeOrganization": "Youth Organization",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test all invalid data (should return multiple validation errors)
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "",
+    "gender": "",
+    "age": 0,
+    "organization": "",
+    "phone": "",
+    "typeParticipant": "",
+    "municipality": "",
+    "typeOrganization": "",
+    "idProject": "",
+    "idFounder": "",
+    "idActivity": "",
+    "idUser": ""
+  },
+  {
+    "nameParticipant": null,
+    "gender": null,
+    "age": -5,
+    "organization": null,
+    "phone": null,
+    "typeParticipant": null,
+    "municipality": null,
+    "typeOrganization": null,
+    "idProject": "",
+    "idFounder": "",
+    "idActivity": "",
+    "idUser": ""
+  }
+]
+
+###Test with missing required fields
+POST http://localhost:4984/participants/bulk
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Incomplete Participant",
+    "gender": "Male",
+    "age": 30
+  },
+  {
+    "organization": "Incomplete Organization",
+    "phone": "+591-70000000"
+  }
+]
+
+###Test with non-existent foreign keys (database constraint test)
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "Test Non-existent Project",
+    "gender": "Female",
+    "age": 28,
+    "organization": "Test Organization",
+    "phone": "+591-70111000",
+    "typeParticipant": "Test",
+    "municipality": "Test City",
+    "typeOrganization": "Test",
+    "idProject": "non-existent-project-id",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Test Non-existent Activity",
+    "gender": "Male",
+    "age": 35,
+    "organization": "Test Organization 2",
+    "phone": "+591-70222000",
+    "typeParticipant": "Test",
+    "municipality": "Test City 2",
+    "typeOrganization": "Test",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "non-existent-activity-id",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test edge cases with field lengths
+POST http://localhost:4984/participants/bulk
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "A",
+    "gender": "M",
+    "age": 1,
+    "organization": "O",
+    "phone": "1",
+    "typeParticipant": "T",
+    "municipality": "M",
+    "typeOrganization": "T",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "ThisIsAVeryLongParticipantNameThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "gender": "ThisIsAVeryLongGender",
+    "age": 999,
+    "organization": "ThisIsAVeryLongOrganizationNameThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "phone": "ThisIsAVeryLongPhoneNumber",
+    "typeParticipant": "ThisIsAVeryLongParticipantTypeThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "municipality": "ThisIsAVeryLongMunicipalityNameThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "typeOrganization": "ThisIsAVeryLongOrganizationTypeThatExceedsTheMaximumAllowedLengthOf100CharactersAndShouldFailValidation",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###Test with diverse demographic data
+POST http://localhost:4984/participants
+Content-Type: application/json
+
+[
+  {
+    "nameParticipant": "María José Condori",
+    "gender": "Female",
+    "age": 18,
+    "organization": "Colegio Nacional",
+    "phone": "+591-76666666",
+    "typeParticipant": "Student",
+    "municipality": "Quillacollo",
+    "typeOrganization": "Educational",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  },
+  {
+    "nameParticipant": "Fernando Choque",
+    "gender": "Male",
+    "age": 65,
+    "organization": "Sindicato de Agricultores",
+    "phone": "+591-77777777",
+    "typeParticipant": "Elder",
+    "municipality": "Achacachi",
+    "typeOrganization": "Agricultural Union",
+    "idProject": "f2ef50b0-5da7-40f4-a371-bde8653459a5",
+    "idFounder": "5a3b5272-084d-4f95-a9d1-5e516ef82bb7",
+    "idActivity": "cc7a695b-f1dd-4ad8-9701-62e79f37295c",
+    "idUser": "e8b57f6c-fc2f-432c-955f-f38abc1a3cd3"
+  }
+]
+
+###=====================================================================
 ###LOGIN
 ###Login with valid credentials
 POST http://localhost:4984/login
