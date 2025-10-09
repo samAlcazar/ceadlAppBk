@@ -37,11 +37,11 @@ POST http://localhost:4984/users
 Content-Type: application/json
 
 {
-  "nameUser": "Samuel Alcazar",
-  "nickUser": "saalcazar",
-  "passwordUser": "123789",
+  "nameUser": "Centro de Estudios y Apoyo al Desarrollo Local",
+  "nickUser": "ceadl",
+  "passwordUser": "mi4v-aee3-5939",
   "chargeUser": "Manager",
-  "signatureUser": "Sam Signature",
+  "signatureUser": "CEADLsignature",
   "idProfile": "8173634e-14d1-4e6f-9be4-d8ef3b871e06",
   "idProject": null
 }
