@@ -34,8 +34,9 @@ export class LoginController {
         .cookie('acces_token', token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-          maxAge: 1000 * 60 * 60 * 8
+          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+          maxAge: 1000 * 60 * 60 * 8,
+          domain: process.env.NODE_ENV === 'production' ? undefined : undefined
         })
         .send({ user, token })
     } catch (e) {
@@ -44,23 +45,50 @@ export class LoginController {
   }
 
   authorized = async (req, res) => {
-    const token = req.cookies.acces_token
+    // Intentar obtener el token de las cookies primero
+    let token = req.cookies.acces_token
+    // Si no hay token en las cookies, intentar obtenerlo del header Authorization
     if (!token) {
-      console.log(token)
-      return res.status(401).json({ error: 'Unauthorized' })
+      const authHeader = req.headers.authorization
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7)
+      }
+    }
+
+    if (!token) {
+      console.log('No token found in cookies or headers')
+      return res.status(401).json({ error: 'Unauthorized - No token provided' })
     }
 
     try {
       const user = jwt.verify(token, SECRET_JWT_TOKEN)
       res.status(200).send({ user })
     } catch (e) {
-      res.status(401).json({ error: 'Unauthorized' })
+      console.log('Token verification failed:', e.message)
+      res.status(401).json({ error: 'Unauthorized - Invalid token' })
     }
   }
 
   logOut = async (req, res) => {
     res
-      .clearCookie('acces_token')
+      .clearCookie('acces_token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+      })
       .send({ message: 'LogOut' })
+  }
+
+  // Ruta de prueba para verificar cookies y headers
+  checkAuth = async (req, res) => {
+    const token = req.cookies.acces_token || (req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.substring(7) : null)
+    res.status(200).json({
+      hasCookies: !!req.cookies.acces_token,
+      hasAuthHeader: !!req.headers.authorization,
+      token: token ? 'Present' : 'Missing',
+      environment: process.env.NODE_ENV,
+      origin: req.headers.origin,
+      userAgent: req.headers['user-agent']
+    })
   }
 }

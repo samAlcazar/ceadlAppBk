@@ -9,6 +9,7 @@ export const createLoginRouter = ({ loginModel }) => {
 
   loginRouter.post('/', loginController.login)
   loginRouter.get('/authorized', loginController.authorized)
+  loginRouter.get('/check', loginController.checkAuth)
   loginRouter.post('/logout', loginController.logOut)
 
   return loginRouter

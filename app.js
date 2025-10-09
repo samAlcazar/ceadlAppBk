@@ -42,6 +42,13 @@ export const createApp = ({
   app.use(express.json())
   app.use(cookieParser())
   app.use(corsMiddleware())
+  // Middleware adicional para headers de seguridad en producción
+  app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+      res.header('Access-Control-Allow-Credentials', 'true')
+    }
+    next()
+  })
 
   app.all('/', (req, res) => {
     res.header('Access-Control-Allow-Origin', req.get('Origin') || '*')
